@@ -9,10 +9,13 @@ task :install do
     puts `gem install remind-1.0.0.gem`
 end
 
+task :package do
+    Rake::Task[:build].invoke and Rake::Task[:install].invoke
+end
+
 Rake::TestTask.new(:test) do |t|
     t.libs << 'test'
     t.libs << 'lib'
 end
 
-desc "Build and Install"
-task :default => [:build, :install]
+task :default => [:package]

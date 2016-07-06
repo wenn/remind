@@ -5,7 +5,8 @@ Gem::Specification.new do |s|
   s.summary     = "Trello, but better"
   s.authors     = ["Nguyen Nguyen"]
   s.email       = 'nnguyen920@gmail.com '
-  s.files       = ["lib/remind.rb"]
+  s.files       = `git ls-files -z`.split("\x0").select { |f| f[%r{^lib/}] }
   s.homepage    = "https://github.com/"
-  s.license       = 'MIT'
+  s.license     = 'MIT'
+  s.executables = 'remind'
 end

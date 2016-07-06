@@ -1,7 +1,4 @@
-$LOAD_PATH.unshift(File.expand_path(File.dirname('../')))
+$LOAD_PATH.unshift Dir.pwd
 
-class Remind
-    def self.goodbye
-        puts "goodbye world.."
-    end
-end
+require 'lib/test'
+

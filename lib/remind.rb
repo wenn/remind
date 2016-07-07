@@ -1,21 +1,44 @@
 require 'config'
-require 'fileutils'
-require 'digest'
+require 'file_helper'
+
+class Action
+  LIST = 'list'
+  ADD = 'add'
+end
 
 class Remind
   def self.main(entry)
-    ensure_data_folder()
-    file_name = Digest::SHA1.hexdigest(entry)
-    file_path = File.join(::DATA_FOLDER, file_name)
+    FileHelper.ensure_data_folder()
 
-    File.open(file_path, 'w+') { |f| f.write(entry) }
+    action = find_action(entry)
 
-    return file_name
+    return action[entry]
   end
 
-  def self.ensure_data_folder
-    if not Dir.exists?(::DATA_FOLDER)
-      FileUtils.mkdir_p(::DATA_FOLDER)
+  def self.find_action(entry)
+    methods = {
+      ::Action::LIST => method(:list),
+      ::Action::ADD => method(:add),
+    }
+
+    action = methods[entry]
+
+    return action || methods[::Action::ADD]
+  end
+
+  def self.list(entry)
+    content = ""
+    Dir.glob("#{::DATA_FOLDER}/*") do |file|
+      content << "#{File.read(file)}\n"
     end
+
+    return content
+  end
+
+  def self.add(entry)
+    file_path = FileHelper.find_file_path(entry)
+    File.open(file_path, 'w+') { |f| f.write(entry) }
+
+    return FileHelper.find_file_name(entry)
   end
 end

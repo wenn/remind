@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 
 require 'remind'
-puts Remind.main
+Remind.main ARGV.join(' ')

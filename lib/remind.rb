@@ -3,30 +3,37 @@ require 'file_helper'
 
 class Action
   LIST = 'list'
+  ME = 'me'
   ADD = 'add'
 end
 
 class Remind
-  def self.main(entry)
-    FileHelper.ensure_data_folder()
-
-    action = find_action(entry)
-
-    return action[entry]
+  def initialize(action, entry = nil)
+    @action = action.downcase
+    @entry = entry
   end
 
-  def self.find_action(entry)
+  def main
+    FileHelper.ensure_data_folder()
+
+    action = find_action()
+
+    return action[]
+  end
+
+  def find_action
     methods = {
       ::Action::LIST => method(:list),
       ::Action::ADD => method(:add),
+      ::Action::ME => method(:add),
     }
 
-    action = methods[entry]
+    method = methods[@action]
 
-    return action || methods[::Action::ADD]
+    return method || methods[::Action::ADD]
   end
 
-  def self.list(entry)
+  def list
     content = ""
     Dir.glob("#{::DATA_FOLDER}/*") do |file|
       content << "#{File.read(file)}\n"
@@ -35,10 +42,10 @@ class Remind
     return content
   end
 
-  def self.add(entry)
-    file_path = FileHelper.find_file_path(entry)
-    File.open(file_path, 'w+') { |f| f.write(entry) }
+  def add
+    file_path = FileHelper.find_file_path(@entry)
+    File.open(file_path, 'w+') { |f| f.write(@entry) }
 
-    return FileHelper.find_file_name(entry)
+    return FileHelper.find_file_name(@entry)
   end
 end

@@ -1,4 +1,8 @@
 #!/usr/bin/env ruby
 
 require 'remind'
-Remind.main ARGV.join(' ')
+action = ARGV[0]
+entry = ARGV[1..-1]
+remind = Remind.new(action, entry)
+
+puts remind.main()

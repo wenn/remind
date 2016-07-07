@@ -31,11 +31,11 @@ class RemindTest < Minitest::Test
 
   def test_remind_list_notes
     FakeFS do
-      f1 = Remind.new('add', '1').main()
-      f2 = Remind.new('add', '2').main()
+      f1 = Remind.new('add', 'goodbye').main()
+      f2 = Remind.new('add', 'world').main()
 
       content = (Remind.new('list').main())
-      expected = "1\n2\n"
+      expected = "1. goodbye\n2. world\n"
 
       assert expected == content, debug(expected, content)
       clean_up(f1, f2)

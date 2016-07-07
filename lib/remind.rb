@@ -8,7 +8,7 @@ class Action
 end
 
 class Remind
-  
+
   def initialize(action, entry = nil)
     @action = action.downcase
     @entry = entry
@@ -34,8 +34,10 @@ class Remind
 
   def list
     content = ""
+    index = 0
     Dir.glob("#{::DATA_FOLDER}/*") do |file|
-      content << "#{File.read(file)}\n"
+      index += 1
+      content << "#{index}. #{File.read(file)}\n"
     end
 
     return content

@@ -8,6 +8,13 @@ def debug(expected, actual)
   return "Expected: #{expected}, Actual: #{actual}"
 end
 
+def clean_up(*files)
+  files.each do |file|
+    file_path = File.join(::DATA_FOLDER, file)
+    File.delete(file_path)
+  end
+end
+
 class RemindTest < Minitest::Test
   def test_remind_adds_entry
     FakeFS do
@@ -18,18 +25,20 @@ class RemindTest < Minitest::Test
       content = File.read(file_path)
 
       assert entry == content, debug(entry, content)
+      clean_up(file_name)
     end
   end
 
   def test_remind_list_notes
     FakeFS do
-      Remind.new('add', '1').main()
-      Remind.new('add', '2').main()
+      f1 = Remind.new('add', '1').main()
+      f2 = Remind.new('add', '2').main()
 
       content = (Remind.new('list').main())
       expected = "1\n2\n"
 
       assert expected == content, debug(expected, content)
+      clean_up(f1, f2)
     end
   end
 end

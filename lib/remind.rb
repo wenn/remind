@@ -8,6 +8,7 @@ class Action
 end
 
 class Remind
+  
   def initialize(action, entry = nil)
     @action = action.downcase
     @entry = entry
@@ -16,9 +17,7 @@ class Remind
   def main
     FileHelper.ensure_data_folder()
 
-    action = find_action()
-
-    return action[]
+    return find_action()[]
   end
 
   def find_action

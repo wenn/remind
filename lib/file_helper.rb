@@ -1,5 +1,6 @@
 require 'fileutils'
 require 'digest'
+require 'config'
 
 class FileHelper
   def self.find_file_path(entry)
@@ -10,7 +11,7 @@ class FileHelper
   end
 
   def self.find_file_name(entry)
-    return Digest::SHA1.hexdigest(entry)[0,5]
+    return Digest::SHA1.hexdigest(entry)[0,::FILE_NAME_SIZE]
   end
 
   def self.ensure_data_folder

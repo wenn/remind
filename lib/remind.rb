@@ -5,6 +5,7 @@ class Action
   LIST = 'list'
   ME = 'me'
   ADD = 'add'
+  CLEAR = 'clear'
 end
 
 class Remind
@@ -25,6 +26,7 @@ class Remind
       ::Action::LIST => method(:list),
       ::Action::ADD => method(:add),
       ::Action::ME => method(:add),
+      ::Action::CLEAR => method(:clear_all),
     }
 
     method = methods[@action]
@@ -37,7 +39,7 @@ class Remind
     index = 0
     Dir.glob("#{::DATA_FOLDER}/*") do |file|
       index += 1
-      content << "#{index}. #{File.read(file)}\n"
+      content << "#{index}. [#{File.basename(file)}] #{File.read(file)}\n"
     end
 
     return content
@@ -48,5 +50,11 @@ class Remind
     File.open(file_path, 'w+') { |f| f.write(@entry) }
 
     return FileHelper.find_file_name(@entry)
+  end
+
+  def clear_all
+    Dir.glob("#{::DATA_FOLDER}/*") do |file|
+      File.delete(file)
+    end
   end
 end

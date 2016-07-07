@@ -1,6 +1,13 @@
 # Remind
 
-## Install
+## install
+gem install remind
+
+## Usage
+1. `remind me <entry>`
+2. `remind list`
+
+## Development
 `bundle install`
 
 ## Run Tests

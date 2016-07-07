@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 
 require 'remind'
-puts Remind.goodbye
+puts Remind.main

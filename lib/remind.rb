@@ -9,23 +9,28 @@ class Action
   CLEAR = 'clear'
 end
 
-class RemindWithOn
+class RemindException < Exception
+end
+
+class RemindTimer
 
   def initialize(entry)
     @entry = entry
-    @phrase = nil
   end
 
   def to_time
+    time = nil
     entry_arr = @entry.split
     index = entry_arr.reverse.index('on')
 
-    phrase = entry_arr[-index..-1].join(' ')
-    time = Chronic.parse(phrase)
-
-    if time.nil?
-      phrase = entry_arr[(-index + 1)..-1].join(' ')
+    if not index.nil?
+      phrase = entry_arr[-index..-1].join(' ')
       time = Chronic.parse(phrase)
+
+      if time.nil?
+        phrase = entry_arr[(-index + 1)..-1].join(' ')
+        time = Chronic.parse(phrase)
+      end
     end
 
     return time
@@ -71,6 +76,11 @@ class Remind
   end
 
   def add
+
+    time = RemindTimer.new(@entry).to_time
+    if time.nil?
+      fail RemindException, ::REMIND_USAGE
+    end
 
     file_path = FileHelper.find_file_path(@entry)
     File.open(file_path, 'w+') { |f| f.write(@entry) }

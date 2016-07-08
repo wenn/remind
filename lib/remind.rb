@@ -16,11 +16,19 @@ class RemindWithOn
     @phrase = nil
   end
 
-  def to_timestamp
-    index = @entry.split.reverse.index('on')
-    phrase = @entry[-index..-1].join(' ')
+  def to_time
+    entry_arr = @entry.split
+    index = entry_arr.reverse.index('on')
 
+    phrase = entry_arr[-index..-1].join(' ')
     time = Chronic.parse(phrase)
+
+    if time.nil?
+      phrase = entry_arr[(-index + 1)..-1].join(' ')
+      time = Chronic.parse(phrase)
+    end
+
+    return time
   end
 
 end

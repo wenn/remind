@@ -13,7 +13,12 @@ task :package do
     Rake::Task[:build].invoke and Rake::Task[:install].invoke
 end
 
+
 Rake::TestTask.new(:test) do |t|
+  t.libs << "test"
+  t.libs << "lib"
+  t.test_files = FileList['test/test*.rb']
+  t.verbose = true
 end
 
 task :default => [:package]

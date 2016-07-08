@@ -53,3 +53,17 @@ class RemindTest < Minitest::Test
     end
   end
 end
+
+class RemindWithOnTest < Minitest::Test
+
+  def test_remind_on_a_day
+    time = RemindWithOn.new('say goodbye on tuesday').to_time
+    assert time.tuesday?, 'Should say goodbye on a tuesday'
+  end
+
+  def test_remind_on_a_date
+    time = RemindWithOn.new('say goodbye on may 27th').to_time
+    assert time.month == 5, 'Should be in may'
+    assert time.day == 27, 'Should be on the 27th'
+  end
+end

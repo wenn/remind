@@ -1,5 +1,0 @@
-require 'minitest/autorun'
-require 'fakefs'
-require 'fakefs/safe'
-require 'config'
-require 'remind'

@@ -3,6 +3,7 @@ require 'config'
 require 'file_helper'
 
 REMIND_USAGE = 'change me'
+QUIT_MARKER = ':q'
 
 class Action
   LIST = 'list'
@@ -21,7 +22,6 @@ class RemindTimer
   end
 
   def to_time
-
     if not @time_phrase[/^on\s/]
       fail RemindException, ::REMIND_USAGE
     end
@@ -72,17 +72,16 @@ class Remind
     index = 0
     FileHelper.data_files do |file|
       index += 1
-      content << "#{index}. #{File.read(file)}\n"
+      content << "#{index}. #{File.read(file).split("\n")[0]}\n"
     end
 
     return content
   end
 
   def add
-
     time = find_time()
-
     body = prompt_body()
+
     file_name = FileHelper.make_file_name(@time_phrase + body)
     file_path = FileHelper.find_file_path(file_name)
     File.open(file_path, 'w+') { |f| f.write(body) }
@@ -111,7 +110,7 @@ class Remind
     body = ""
     loop do
       content = gets
-      break if content.chomp.eql?(":done")
+      break if content.chomp.eql?(":q")
       body << content
     end
 

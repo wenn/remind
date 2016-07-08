@@ -4,7 +4,13 @@
 gem install remind
 
 ## Usage
-1. `remind me <entry>`
+1. Add an entry
+```
+  $ remind me on monday
+  > the title
+  > the body
+  > more of the body
+```
 2. `remind list`
 
 ## Development

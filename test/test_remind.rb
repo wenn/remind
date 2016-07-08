@@ -29,7 +29,7 @@ class RemindTest < Minitest::Test
     FakeFS do
       with_writer do |writer|
         entry = "goodbye world..."
-        writer.puts entry, ":done"
+        writer.puts entry, ":q"
         file_name = Remind.new("add", "on monday").main()
 
         file_path = File.join(::DATA_FOLDER, file_name)
@@ -44,10 +44,10 @@ class RemindTest < Minitest::Test
   def test_remind_list_notes
     FakeFS do
       with_writer do |writer|
-        writer.puts "goodbye", ":done"
+        writer.puts "goodbye", ":q"
         f1 = Remind.new("add", "on monday").main()
 
-        writer.puts "world", ":done"
+        writer.puts "world", ":q"
         f2 = Remind.new("add", "on monday").main()
 
         content = (Remind.new("list").main())
@@ -63,10 +63,10 @@ class RemindTest < Minitest::Test
     FakeFS do
       with_writer do |writer|
 
-        writer.puts "goodbye", ":done"
+        writer.puts "goodbye", ":q"
         Remind.new("add", "on monday").main()
 
-        writer.puts "world", ":done"
+        writer.puts "world", ":q"
         Remind.new("add", "on monday").main()
 
         Remind.new("clear").main()

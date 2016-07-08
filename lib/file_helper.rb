@@ -4,7 +4,7 @@ require 'config'
 
 class FileHelper
   def self.find_file_path(entry)
-    file_name = find_file_name(entry)
+    file_name = make_file_name(entry)
     file_path = File.join(::DATA_FOLDER, file_name)
 
     return file_path

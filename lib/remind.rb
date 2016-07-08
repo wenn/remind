@@ -1,3 +1,4 @@
+require 'chronic'
 require 'config'
 require 'file_helper'
 
@@ -6,6 +7,22 @@ class Action
   ME = 'me'
   ADD = 'add'
   CLEAR = 'clear'
+end
+
+class RemindWithOn
+
+  def initialize(entry)
+    @entry = entry
+    @phrase = nil
+  end
+
+  def to_timestamp
+    index = @entry.split.reverse.index('on')
+    phrase = @entry[-index..-1].join(' ')
+
+    time = Chronic.parse(phrase)
+  end
+
 end
 
 class Remind
@@ -39,13 +56,14 @@ class Remind
     index = 0
     FileHelper.data_files do |file|
       index += 1
-      content << "#{index}. [#{File.basename(file)}] #{File.read(file)}\n"
+      content << "#{index}. #{File.read(file)}\n"
     end
 
     return content
   end
 
   def add
+
     file_path = FileHelper.find_file_path(@entry)
     File.open(file_path, 'w+') { |f| f.write(@entry) }
 

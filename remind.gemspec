@@ -9,4 +9,6 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/"
   s.license     = 'MIT'
   s.executables = 'remind'
+
+  s.add_dependency('chronic', '0.10.2')
 end

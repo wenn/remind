@@ -35,7 +35,7 @@ class RemindTest < Minitest::Test
       f2 = Remind.new('add', 'world').main()
 
       content = (Remind.new('list').main())
-      expected = "1. [3c8] goodbye\n2. [7c2] world\n"
+      expected = "1. goodbye\n2. world\n"
 
       assert expected == content, debug(expected, content)
       clean_up(f1, f2)

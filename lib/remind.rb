@@ -37,7 +37,7 @@ class Remind
   def list
     content = ""
     index = 0
-    Dir.glob("#{::DATA_FOLDER}/*") do |file|
+    FileHelper.data_files do |file|
       index += 1
       content << "#{index}. [#{File.basename(file)}] #{File.read(file)}\n"
     end
@@ -53,7 +53,7 @@ class Remind
   end
 
   def clear_all
-    Dir.glob("#{::DATA_FOLDER}/*") do |file|
+    FileHelper.data_files do |file|
       File.delete(file)
     end
   end

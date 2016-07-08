@@ -15,3 +15,11 @@ gem install remind
 
 ## Package gem
 `rake package`
+
+## TODO
+- add readme Usage
+- add "every <day>"
+- add "@ time"
+- add "in <count> <days>"
+- publish
+- figure out how to split tests...

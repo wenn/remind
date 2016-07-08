@@ -2,6 +2,8 @@ require 'chronic'
 require 'config'
 require 'file_helper'
 
+REMIND_USAGE = 'change me'
+
 class Action
   LIST = 'list'
   ME = 'me'
@@ -14,23 +16,24 @@ end
 
 class RemindTimer
 
-  def initialize(entry)
-    @entry = entry
+  def initialize(time_phrase)
+    @time_phrase = time_phrase
   end
 
   def to_time
+
+    if not @time_phrase[/^on\s/]
+      fail RemindException, ::REMIND_USAGE
+    end
+
     time = nil
-    entry_arr = @entry.split
-    index = entry_arr.reverse.index('on')
+    time_phrase_arr = @time_phrase.split
+    phrase = time_phrase_arr[0..-1].join(' ')
+    time = Chronic.parse(phrase)
 
-    if not index.nil?
-      phrase = entry_arr[-index..-1].join(' ')
+    if time.nil?
+      phrase = time_phrase_arr[1..-1].join(' ')
       time = Chronic.parse(phrase)
-
-      if time.nil?
-        phrase = entry_arr[(-index + 1)..-1].join(' ')
-        time = Chronic.parse(phrase)
-      end
     end
 
     return time
@@ -40,9 +43,9 @@ end
 
 class Remind
 
-  def initialize(action, entry = nil)
+  def initialize(action, time_phrase = nil)
     @action = action.downcase
-    @entry = entry
+    @time_phrase = time_phrase
   end
 
   def main
@@ -77,20 +80,41 @@ class Remind
 
   def add
 
-    time = RemindTimer.new(@entry).to_time
-    if time.nil?
-      fail RemindException, ::REMIND_USAGE
-    end
+    time = find_time()
 
-    file_path = FileHelper.find_file_path(@entry)
-    File.open(file_path, 'w+') { |f| f.write(@entry) }
+    body = prompt_body()
+    file_name = FileHelper.make_file_name(@time_phrase + body)
+    file_path = FileHelper.find_file_path(file_name)
+    File.open(file_path, 'w+') { |f| f.write(body) }
 
-    return FileHelper.find_file_name(@entry)
+    return file_name
   end
 
   def clear_all
     FileHelper.data_files do |file|
       File.delete(file)
     end
+  end
+
+  private
+  def find_time
+    time = RemindTimer.new(@time_phrase).to_time
+    if time.nil?
+      fail RemindException, ::REMIND_USAGE
+    end
+
+    return time
+  end
+
+  private
+  def prompt_body
+    body = ""
+    loop do
+      content = gets
+      break if content.chomp.eql?(":done")
+      body << content
+    end
+
+    return body.chomp
   end
 end

@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.files       = `git ls-files -z`.split("\x0").select { |f| f[%r{^lib/}] }
   s.homepage    = "https://github.com/"
   s.license     = 'MIT'
-  s.executables = 'remind'
+  s.executables = 'remindme'
 
   s.add_dependency('chronic', '0.10.2')
 end

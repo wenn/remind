@@ -21,5 +21,6 @@ gem install remind
 - add "every <day>"
 - add "@ time"
 - add "in <count> <days>"
+- add "next <time>"
 - publish
 - figure out how to split tests...

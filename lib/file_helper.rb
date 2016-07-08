@@ -10,7 +10,7 @@ class FileHelper
     return file_path
   end
 
-  def self.find_file_name(entry)
+  def self.make_file_name(entry)
     return Digest::SHA1.hexdigest(entry)[0,::FILE_NAME_SIZE]
   end
 

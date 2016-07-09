@@ -16,6 +16,7 @@ class RemindTimer
   end
 
   def to_time(timer_marker)
+    
     if not @time_phrase[/^(#{timer_marker})\s/]
       fail ::RemindException, ::REMIND_USAGE
     end

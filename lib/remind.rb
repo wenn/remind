@@ -1,8 +1,8 @@
 require 'config'
 require 'file_helper'
 require 'remind_timer'
+require 'remind_note'
 require 'error'
-require 'json'
 
 REMIND_USAGE = 'change me'
 QUIT_MARKER = ':q'
@@ -57,18 +57,18 @@ class Remind
     time, marker = find_time()
     body = prompt_body()
 
-    data = {
-      "action" => @action,
-      "time_phrase" => @time_phrase,
-      "time_marker" => marker.val,
-      "title" => body.split("\n")[0],
-      "body" => body,
-      "time" => time,
-    }
+    note = RemindNote.new(
+      action:  @action,
+      time_phrase:  @time_phrase,
+      time_marker:  marker.val,
+      title:  body.split("\n")[0],
+      body:  body,
+      time:  time,
+    )
 
     file_name = FileHelper.make_file_name()
     file_path = FileHelper.find_file_path(file_name)
-    File.open(file_path, 'w+') { |f| f.write(JSON.pretty_generate(data)) }
+    File.open(file_path, 'w+') { |f| f.write(note.to_json()) }
 
     return file_name
   end

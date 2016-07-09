@@ -1,6 +1,7 @@
 require "minitest/autorun"
 require "fakefs"
 require "fakefs/safe"
+require "time"
 
 require "remind"
 require "remind_config"
@@ -28,7 +29,7 @@ class RemindTest < Minitest::Test
         }
 
         data = JSON.parse(content)
-        time = data.fetch("time")
+        time = Time.parse(data.fetch("time"))
         data.delete("time")
 
         assert expected == data, TestHelper.debug(expected, data)

@@ -1,7 +1,7 @@
 require 'json'
 
 class RemindNote
-
+  attr_reader :action, :time_phrase, :time_marker, :title, :body, :time  
   def initialize(action:, time_phrase:, time_marker:, title:, body:, time:)
     @action = action
     @time_phrase = time_phrase
@@ -34,4 +34,5 @@ class RemindNote
 
     return self.new(Hash[args])
   end
+
 end

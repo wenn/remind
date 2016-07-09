@@ -44,10 +44,12 @@ class Remind
   def list
     content = ""
     index = 0
+    
     FileHelper.data_files do |file|
       index += 1
       data = JSON.parse(File.read(file))
-      content << "#{index}. #{data.fetch("title")}\n"
+      note = RemindNote.make(data)
+      content << "#{index}. #{note.title}\n"
     end
 
     return content

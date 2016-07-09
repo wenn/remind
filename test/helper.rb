@@ -16,8 +16,9 @@ module TestHelper
     stdin = $stdin
     $stdin, writer = IO.pipe
     yield writer
-  rescue
+  ensure
     writer.close()
+    $stdin.close()
     $stdin = stdin
   end
 end

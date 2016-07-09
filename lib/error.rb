@@ -1,0 +1,2 @@
+class RemindException < Exception
+end

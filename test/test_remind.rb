@@ -1,9 +1,11 @@
 require "minitest/autorun"
 require "fakefs"
 require "fakefs/safe"
+
 require "config"
 require "remind"
 require "helper"
+require "error"
 
 class RemindTest < Minitest::Test
   def test_remind_adds_entry

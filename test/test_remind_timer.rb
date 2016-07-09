@@ -2,7 +2,6 @@ require "minitest/autorun"
 require "config"
 require "remind"
 require "helper"
-require "helper"
 
 class RemindTimerAsOnTest < Minitest::Test
 

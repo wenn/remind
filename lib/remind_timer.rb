@@ -18,6 +18,7 @@ module Marker
   end
 
 end
+
 class RemindTimer
 
   def initialize(time_phrase)

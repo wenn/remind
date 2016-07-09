@@ -1,6 +1,4 @@
 require "minitest/autorun"
-require "fakefs"
-require "fakefs/safe"
 require "time"
 
 require "remind"
@@ -11,13 +9,13 @@ require "helper"
 class RemindTest < Minitest::Test
 
   def test_remind_adds_entry
-    FakeFS do
+    TestHelper.fs do
       TestHelper.with_writer do |writer|
         entry = "goodbye world..."
 
         writer.puts entry, ":q"
         file_name = Remind.new("add", "on monday").main()
-        file_path = File.join(::DATA_FOLDER, file_name)
+        file_path = File.join(Config.data_folder, file_name)
         content = File.read(file_path)
 
         expected = {
@@ -34,13 +32,12 @@ class RemindTest < Minitest::Test
 
         assert expected == data, TestHelper.debug(expected, data)
         assert time.monday?, "Should be Monday"
-        TestHelper.clean_up(file_name)
       end
     end
   end
 
   def test_remind_list_notes
-    FakeFS do
+    TestHelper.fs do
       TestHelper.with_writer do |writer|
         writer.puts "goodbye", ":q"
         f1 = Remind.new("add", "on monday").main()
@@ -52,13 +49,12 @@ class RemindTest < Minitest::Test
         expected = "1. goodbye\n2. world\n"
 
         assert expected == content, TestHelper.debug(expected, content)
-        TestHelper.clean_up(f1, f2)
       end
     end
   end
 
   def test_remind_clear_all
-    FakeFS do
+    TestHelper.fs do
       TestHelper.with_writer do |writer|
 
         writer.puts "goodbye", ":q"
@@ -75,7 +71,7 @@ class RemindTest < Minitest::Test
   end
 
   def test_remind_error_with_no_time_phrase
-    FakeFS do
+    TestHelper.fs do
       err = assert_raises(RemindException) { Remind.new("add", "goodbye").main() }
       assert err.message == ::REMIND_USAGE, TestHelper.debug(::REMIND_USAGE, err.message)
     end

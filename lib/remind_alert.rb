@@ -1,12 +1,13 @@
-require "file_helper"
+require "time"
+
+require "remind_helper"
+require "remind_config"
+require "remind_note"
 
 class RemindAlert
 
   def main()
-    FileHelper.data_files do |file|
-      data = JSON.parse(File.read(file))
-      time = data["time"]
-    end
+    
   end
 
 end

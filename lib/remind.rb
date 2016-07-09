@@ -44,7 +44,7 @@ class Remind
   def list
     content = ""
     index = 0
-    
+
     FileHelper.data_files do |file|
       index += 1
       data = JSON.parse(File.read(file))
@@ -68,17 +68,22 @@ class Remind
       time: time,
     )
 
-    file_name = FileHelper.make_file_name()
-    file_path = FileHelper.find_file_path(file_name)
-    File.open(file_path, 'w+') { |f| f.write(note.to_json()) }
-
-    return file_name
+    return self.class.write_note(note)
   end
 
   def clear_all
     FileHelper.data_files do |file|
       File.delete(file)
     end
+  end
+
+  private
+  def self.write_note(note)
+    file_name = FileHelper.make_file_name(note)
+    file_path = FileHelper.find_file_path(file_name)
+    File.open(file_path, 'w+') { |f| f.write(note.to_json()) }
+
+    return file_name
   end
 
   private

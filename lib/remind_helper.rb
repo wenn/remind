@@ -1,30 +1,29 @@
 require 'fileutils'
 require 'digest'
-require 'securerandom'
 
 require 'remind_config'
 
 class FileHelper
   def self.find_file_path(file_name)
-    file_path = File.join(::DATA_FOLDER, file_name)
+    file_path = File.join(Config.data_folder, file_name)
 
     return file_path
   end
 
-  def self.make_file_name
-    return SecureRandom.hex
+  def self.make_file_name(note)
+    return (Digest::MD5.new).hexdigest(note.to_json)[0..Config.file_name_size]
   end
 
   def self.data_files
-    Dir.foreach(::DATA_FOLDER) do |item|
+    Dir.foreach(Config.data_folder) do |item|
       next if item == '.' or item == '..'
-      yield File.join(::DATA_FOLDER, item)
+      yield File.join(Config.data_folder, item)
     end
   end
 
   def self.ensure_data_folder
-    if not Dir.exists?(::DATA_FOLDER)
-      FileUtils.mkdir_p(::DATA_FOLDER)
+    if not Dir.exists?(Config.data_folder)
+      FileUtils.mkdir_p(Config.data_folder)
     end
   end
 end

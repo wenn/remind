@@ -69,7 +69,7 @@ class Remind
 
   private
   def find_time
-    time = RemindTimer.new(@time_phrase).as_on()
+    time = RemindTimer.new(@time_phrase).parse()
     if time.nil?
       fail RemindException, ::REMIND_USAGE
     end

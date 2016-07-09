@@ -18,7 +18,19 @@ class RemindTest < Minitest::Test
         file_path = File.join(::DATA_FOLDER, file_name)
         content = File.read(file_path)
 
-        assert entry == content, TestHelper.debug(entry, content)
+        expected = {
+          "action" => "add",
+          "time_phrase" => "on monday",
+          "body" => "goodbye world...",
+          "title" => "goodbye world...",
+        }
+
+        data = JSON.parse(content)
+        time = data.fetch("time")
+        data.delete("time")
+
+        assert expected == data, TestHelper.debug(expected, data)
+        assert time.monday?, "Should be Monday"
         TestHelper.clean_up(file_name)
       end
     end

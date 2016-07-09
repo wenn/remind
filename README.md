@@ -24,7 +24,7 @@ gem install remind
 
 ## TODO
 - add readme Usage
-- add "every <day>"
+- add "every <day|week|month|year>"
 - add "@ time"
 - add "in <count> <days>"
 - add "next <time>"

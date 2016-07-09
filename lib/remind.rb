@@ -2,6 +2,7 @@ require 'config'
 require 'file_helper'
 require 'remind_timer'
 require 'error'
+require 'json'
 
 REMIND_USAGE = 'change me'
 QUIT_MARKER = ':q'
@@ -44,7 +45,8 @@ class Remind
     index = 0
     FileHelper.data_files do |file|
       index += 1
-      content << "#{index}. #{File.read(file).split("\n")[0]}\n"
+      data = JSON.parse(File.read(file))
+      content << "#{index}. #{data.fetch("title")}\n"
     end
 
     return content
@@ -54,9 +56,17 @@ class Remind
     time = find_time()
     body = prompt_body()
 
+    data = {
+      "action" => @action,
+      "time_phrase" => @time_phrase,
+      "title" => body.split("\n")[0],
+      "body" => body,
+      "time" => time,
+    }
+
     file_name = FileHelper.make_file_name()
     file_path = FileHelper.find_file_path(file_name)
-    File.open(file_path, 'w+') { |f| f.write(body) }
+    File.open(file_path, 'w+') { |f| f.write(JSON.pretty_generate(data)) }
 
     return file_name
   end

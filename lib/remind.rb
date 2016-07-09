@@ -19,6 +19,7 @@ class Remind
   def initialize(action, time_phrase = nil)
     @action = action.downcase
     @time_phrase = time_phrase
+    @timer_marker = nil
   end
 
   def main
@@ -53,12 +54,13 @@ class Remind
   end
 
   def add
-    time = find_time()
+    time, marker = find_time()
     body = prompt_body()
 
     data = {
       "action" => @action,
       "time_phrase" => @time_phrase,
+      "time_marker" => marker.val,
       "title" => body.split("\n")[0],
       "body" => body,
       "time" => time,
@@ -79,12 +81,13 @@ class Remind
 
   private
   def find_time
-    time = RemindTimer.new(@time_phrase).parse()
+    time, marker = RemindTimer.new(@time_phrase).parse()
+
     if time.nil?
       fail RemindException, ::REMIND_USAGE
     end
 
-    return time
+    return time, marker
   end
 
   private

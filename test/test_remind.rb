@@ -8,19 +8,21 @@ require "helper"
 require "error"
 
 class RemindTest < Minitest::Test
+
   def test_remind_adds_entry
     FakeFS do
       TestHelper.with_writer do |writer|
         entry = "goodbye world..."
+        
         writer.puts entry, ":q"
         file_name = Remind.new("add", "on monday").main()
-
         file_path = File.join(::DATA_FOLDER, file_name)
         content = File.read(file_path)
 
         expected = {
           "action" => "add",
           "time_phrase" => "on monday",
+          "time_marker" => "on",
           "body" => "goodbye world...",
           "title" => "goodbye world...",
         }

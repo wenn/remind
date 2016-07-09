@@ -1,7 +1,23 @@
 require 'chronic'
 require 'error'
 
+module Marker
 
+  class Base end
+
+  class On < Base
+    def self.val
+      return "on"
+    end
+  end
+
+  class At < Base
+    def self.val
+      return "@|at"
+    end
+  end
+
+end
 class RemindTimer
 
   def initialize(time_phrase)
@@ -9,12 +25,12 @@ class RemindTimer
   end
 
   def parse
-    ["on", "@|at"].each do |marker|
-      time = to_time(marker)
-      return time if not time.nil?
+    [Marker::On, Marker::At].each do |marker|
+      time = to_time(marker.val)
+      return [time, marker] if not time.nil?
     end
 
-    return nil
+    return nil, nil
   end
 
   def to_time(timer_marker)

@@ -28,5 +28,10 @@ class RemindNote
   end
 
   def self.make(json)
+    args = json.map do |key, val|
+      [key.to_sym, val]
+    end
+
+    return self.new(Hash[args])
   end
 end

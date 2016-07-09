@@ -1,4 +1,4 @@
-require "config"
+require "remind_config"
 
 module TestHelper
   def self.debug(expected, actual)

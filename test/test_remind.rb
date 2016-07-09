@@ -2,10 +2,10 @@ require "minitest/autorun"
 require "fakefs"
 require "fakefs/safe"
 
-require "config"
 require "remind"
+require "remind_config"
+require "remind_error"
 require "helper"
-require "error"
 
 class RemindTest < Minitest::Test
 
@@ -13,7 +13,7 @@ class RemindTest < Minitest::Test
     FakeFS do
       TestHelper.with_writer do |writer|
         entry = "goodbye world..."
-        
+
         writer.puts entry, ":q"
         file_name = Remind.new("add", "on monday").main()
         file_path = File.join(::DATA_FOLDER, file_name)

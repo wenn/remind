@@ -1,8 +1,8 @@
-require 'config'
-require 'file_helper'
+require 'remind_config'
+require 'remind_helper'
 require 'remind_timer'
 require 'remind_note'
-require 'error'
+require 'remind_error'
 
 REMIND_USAGE = 'change me'
 QUIT_MARKER = ':q'
@@ -58,12 +58,12 @@ class Remind
     body = prompt_body()
 
     note = RemindNote.new(
-      action:  @action,
-      time_phrase:  @time_phrase,
-      time_marker:  marker.val,
-      title:  body.split("\n")[0],
-      body:  body,
-      time:  time,
+      action: @action,
+      time_phrase: @time_phrase,
+      time_marker: marker.val,
+      title: body.split("\n")[0],
+      body: body,
+      time: time,
     )
 
     file_name = FileHelper.make_file_name()

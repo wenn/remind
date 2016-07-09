@@ -1,7 +1,8 @@
 require 'fileutils'
 require 'digest'
-require 'config'
 require 'securerandom'
+
+require 'remind_config'
 
 class FileHelper
   def self.find_file_path(file_name)

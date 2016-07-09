@@ -1,9 +1,19 @@
 #!/usr/bin/env ruby
 
 require 'remind'
+
+if ARGV.size == 0
+  puts 'You enter nothing you horse basket.'
+  exit 1
+end
+
 action = ARGV[0]
 entry = ARGV[1..-1].join(' ')
 ARGV.clear()
 
-remind = Remind.new(action, entry)
-puts remind.main()
+begin
+  remind = Remind.new(action, entry)
+  puts remind.main()
+rescue Exception => e
+  puts e.message
+end

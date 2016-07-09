@@ -15,9 +15,9 @@ end
 
 
 Rake::TestTask.new(:test) do |t|
-  t.libs << "test"
-  t.libs << "lib"
-  t.test_files = FileList['test/test*.rb']
+  t.libs << File.expand_path('test/helper.rb')
+  t.libs << File.expand_path('lib/')
+  t.test_files = FileList['test/test*.rb'].map { |f| File.expand_path(f) }
   t.verbose = true
 end
 

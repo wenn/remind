@@ -21,8 +21,16 @@ class RemindTimer
     @time_phrase = time_phrase
   end
 
-  def to_time
-    if not @time_phrase[/^on\s/]
+  def as_on
+    return to_time("on")
+  end
+
+  def as_at
+    return to_time("@|at")
+  end
+
+  def to_time(timer_marker)
+    if not @time_phrase[/^(#{timer_marker})\s/]
       fail RemindException, ::REMIND_USAGE
     end
 
@@ -82,7 +90,7 @@ class Remind
     time = find_time()
     body = prompt_body()
 
-    file_name = FileHelper.make_file_name(@time_phrase + body)
+    file_name = FileHelper.make_file_name()
     file_path = FileHelper.find_file_path(file_name)
     File.open(file_path, 'w+') { |f| f.write(body) }
 
@@ -97,7 +105,7 @@ class Remind
 
   private
   def find_time
-    time = RemindTimer.new(@time_phrase).to_time
+    time = RemindTimer.new(@time_phrase).as_on()
     if time.nil?
       fail RemindException, ::REMIND_USAGE
     end

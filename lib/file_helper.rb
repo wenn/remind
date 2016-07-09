@@ -1,17 +1,17 @@
 require 'fileutils'
 require 'digest'
 require 'config'
+require 'securerandom'
 
 class FileHelper
-  def self.find_file_path(entry)
-    file_name = make_file_name(entry)
+  def self.find_file_path(file_name)
     file_path = File.join(::DATA_FOLDER, file_name)
 
     return file_path
   end
 
-  def self.make_file_name(entry)
-    return Digest::SHA1.hexdigest(entry)[0,::FILE_NAME_SIZE]
+  def self.make_file_name
+    return SecureRandom.hex
   end
 
   def self.data_files

@@ -34,10 +34,14 @@ end
 
 class RemindAlert
 
-  def self.main
+  def self.send_all
     message = ""
     RemindNotes.with_due_notes do |note|
+      break if note.sent
+
       message << "#{note.title}\n"
+      note.set_sent(true)
+      note.save()
     end
 
     alert = make_alert()

@@ -47,7 +47,7 @@ class RemindTest < Minitest::Test
         f2 = Remind.new("add", "on monday").main()
 
         content = (Remind.new("list").main())
-        expected = "1. goodbye\n2. world\n"
+        expected = "1. world\n2. goodbye\n"
 
         assert expected == content, TestHelper.debug(expected, content)
       end

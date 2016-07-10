@@ -2,4 +2,4 @@
 
 require 'remind_alert'
 
-RemindAlert.main()
+RemindAlert.send_all()

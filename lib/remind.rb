@@ -1,5 +1,3 @@
-require 'digest'
-
 require 'remind_config'
 require 'remind_helper'
 require 'remind_timer'
@@ -60,10 +58,7 @@ class Remind
   def add
     time, marker = find_time()
     body = prompt_body()
-    id = make_id(@action + body + time.to_s)
-
     note = RemindNote.new(
-      id: id,
       action: @action,
       time_phrase: @time_phrase,
       time_marker: marker.val,
@@ -72,21 +67,13 @@ class Remind
       time: time,
     )
 
-    return self.class.write_note(id, note)
+    return note.save()
   end
 
   def clear_all
     FileHelper.data_files do |file|
       File.delete(file)
     end
-  end
-
-  private
-  def self.write_note(file_name, note)
-    file_path = FileHelper.find_file_path(file_name)
-    File.open(file_path, 'w+') { |f| f.write(note.to_json()) }
-
-    return file_name
   end
 
   private
@@ -110,11 +97,6 @@ class Remind
     end
 
     return body.chomp
-  end
-
-  private
-  def make_id(note)
-    return (Digest::MD5.new).hexdigest(note.to_json)[0..Config.file_name_size]
   end
 
 end

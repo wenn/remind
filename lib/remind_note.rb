@@ -1,3 +1,4 @@
+require "digest"
 require "json"
 
 require "remind_helper"
@@ -6,14 +7,15 @@ class RemindNote
   attr_reader :id, :sent
   attr_reader :action, :time_phrase, :time_marker, :title, :body, :time
 
-  def initialize(id:, action:, time_phrase:, time_marker:, title:, body:, time:)
-    @id = id
+  def initialize(action:, time_phrase:, time_marker:, title:, body:, time:)
+    @id = make_id(title + body + time.to_s)
     @action = action
     @time_phrase = time_phrase
     @time_marker = time_marker
     @title = title
     @body = body
     @time = time
+    @sent = false
   end
 
   def to_hash
@@ -33,12 +35,31 @@ class RemindNote
     return JSON.pretty_generate(data)
   end
 
+  def set_sent(sent)
+    @sent = sent
+  end
+
+  def save
+    file_path = FileHelper.find_file_path(id)
+    File.open(file_path, 'w+') { |f| f.write(to_json()) }
+
+    return id
+  end
+
   def self.make(json)
-    args = json.map do |key, val|
+    args_arr = json.map do |key, val|
       [key.to_sym, val]
     end
 
-    return self.new(Hash[args])
+    args = Hash[args_arr]
+    args.delete(:id)
+
+    return self.new(args)
+  end
+
+  private
+  def make_id(note)
+    return (Digest::MD5.new).hexdigest(note.to_json)[0..Config.file_name_size]
   end
 
 end

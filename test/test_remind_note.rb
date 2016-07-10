@@ -8,7 +8,6 @@ class RemindNoteTest < Minitest::Test
 
   def setup
     @note = RemindNote.new(
-      id: "123",
       action: "add",
       time_phrase: "on monday",
       time_marker: "on",
@@ -21,7 +20,24 @@ class RemindNoteTest < Minitest::Test
   def test_to_hash
     hash = @note.to_hash()
     expected = {
-      "id" => "123",
+      "action" => "add",
+      "time_phrase" => "on monday",
+      "time_marker" => "on",
+      "title" => "goodbye",
+      "body" => "world..",
+      "time" => "<stub>",
+    }
+
+    hash.delete("id")
+    assert expected == hash, TestHelper.debug(expected, hash)
+  end
+
+  def test_to_json
+    json = @note.to_json()
+    hash = JSON.parse(json)
+    hash.delete("id")
+
+    expected = {
       "action" => "add",
       "time_phrase" => "on monday",
       "time_marker" => "on",
@@ -33,24 +49,8 @@ class RemindNoteTest < Minitest::Test
     assert expected == hash, TestHelper.debug(expected, hash)
   end
 
-  def test_to_json
-    hash = @note.to_json()
-    expected = JSON.pretty_generate({
-      "id" => "123",
-      "action" => "add",
-      "time_phrase" => "on monday",
-      "time_marker" => "on",
-      "title" => "goodbye",
-      "body" => "world..",
-      "time" => "<stub>",
-    })
-
-    assert expected == hash, TestHelper.debug(expected, hash)
-  end
-
   def test_make_note_from_json
     data = {
-      "id" => "123",
       "action" => "add",
       "time_phrase" => "on monday",
       "time_marker" => "on",
@@ -62,6 +62,7 @@ class RemindNoteTest < Minitest::Test
     note = RemindNote.make(data)
     hash = note.to_hash()
 
+    hash.delete("id")
     assert data == hash, TestHelper.debug(data, hash)
   end
 end
@@ -76,7 +77,6 @@ class RemindNotesTest < Minitest::Test
 
   def setup
     @due_note = RemindNote.new(
-      id: "123",
       action: "add",
       time_phrase: "on monday",
       time_marker: "on",
@@ -86,7 +86,6 @@ class RemindNotesTest < Minitest::Test
     )
 
     @late_note = RemindNote.new(
-      id: "456",
       action: "add",
       time_phrase: "on monday",
       time_marker: "on",
@@ -98,8 +97,8 @@ class RemindNotesTest < Minitest::Test
 
   def test_return_all_notes
     TestHelper.fs do
-      Remind.send(:write_note, @due_note.id, @due_note)
-      Remind.send(:write_note, @late_note.id, @late_note)
+      @due_note.save()
+      @late_note.save()
 
       MockNotes.with_notes do |note|
         assert [@due_note.id, @late_note.id].include? note.id
@@ -109,8 +108,8 @@ class RemindNotesTest < Minitest::Test
 
   def test_return_only_due_notes
     TestHelper.fs do
-      Remind.send(:write_note, @due_note.id, @due_note)
-      Remind.send(:write_note, @late_note.id, @late_note)
+      @due_note.save()
+      @late_note.save()
 
       MockNotes.with_due_notes do |note|
         assert [@due_note.id].include?(note.id), \

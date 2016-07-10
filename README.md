@@ -25,8 +25,6 @@ gem install remind
 ## TODO
 - add readme Usage
 - add "every <day|week|month|year>"
-- add "@ time"
 - add "in <count> <days>"
 - add "next <time>"
-- publish
-- figure out how to split tests...
+- Set up smtp server to replase TextBelt so we can send from, subject and body texts

@@ -7,7 +7,8 @@ class RemindNote
   attr_reader :id, :sent
   attr_reader :action, :time_phrase, :time_marker, :title, :body, :time
 
-  def initialize(action:, time_phrase:, time_marker:, title:, body:, time:)
+  def initialize(action:, time_phrase:, time_marker:, \
+                 title:, body:, time:, sent: false)
     @id = make_id(title + body + time.to_s)
     @action = action
     @time_phrase = time_phrase
@@ -15,7 +16,7 @@ class RemindNote
     @title = title
     @body = body
     @time = time
-    @sent = false
+    @sent = sent
   end
 
   def to_hash
@@ -27,6 +28,7 @@ class RemindNote
       "title" => @title,
       "body" => @body,
       "time" => @time,
+      "sent" => @sent,
     }
   end
 

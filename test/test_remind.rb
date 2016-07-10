@@ -25,6 +25,7 @@ class RemindTest < Minitest::Test
           "time_marker" => "on",
           "body" => "goodbye world...",
           "title" => "goodbye world...",
+          "sent" => false,
         }
 
         data = JSON.parse(content)

@@ -26,6 +26,7 @@ class RemindNoteTest < Minitest::Test
       "title" => "goodbye",
       "body" => "world..",
       "time" => "<stub>",
+      "sent" => false,
     }
 
     hash.delete("id")
@@ -44,6 +45,7 @@ class RemindNoteTest < Minitest::Test
       "title" => "goodbye",
       "body" => "world..",
       "time" => "<stub>",
+      "sent" => false,
     }
 
     assert expected == hash, TestHelper.debug(expected, hash)
@@ -57,6 +59,7 @@ class RemindNoteTest < Minitest::Test
       "title" => "goodbye",
       "body" => "world..",
       "time" => "<stub>",
+      "sent" => false,
     }
 
     note = RemindNote.make(data)

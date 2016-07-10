@@ -33,7 +33,7 @@ class RemindNotesTest < Minitest::Test
     )
   end
 
-  def test_return_all_notes
+  def test_due_notes_are_sent
     TestHelper.fs do
       @due_note.save()
       @late_note.save()

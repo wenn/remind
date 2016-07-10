@@ -1,7 +1,7 @@
 require "digest"
 require "json"
 
-require "remind/remind_helper"
+require "remind/helper"
 
 class RemindNote
   attr_reader :id, :sent

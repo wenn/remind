@@ -1,5 +1,5 @@
 require 'chronic'
-require 'remind/remind_error'
+require 'remind/error'
 
 module Marker
 

@@ -1,8 +1,8 @@
-require 'remind/remind_config'
-require 'remind/remind_helper'
-require 'remind/remind_parser'
-require 'remind/remind_note'
-require 'remind/remind_error'
+require 'remind/config'
+require 'remind/helper'
+require 'remind/parser'
+require 'remind/note'
+require 'remind/error'
 
 REMIND_USAGE = 'change me'
 QUIT_MARKER = ':q'

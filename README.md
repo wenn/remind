@@ -1,17 +1,17 @@
 # Remind
 
-## install
-gem install remind
+## Install
+`gem install remind`
 
 ## Usage
-1. Add an entry
++ Add an entry
 ```
   $ remind me on monday
   > the title
   > the body
   > more of the body
 ```
-2. `remind list`
++ `remind list`
 
 ## Development
 `bundle install`

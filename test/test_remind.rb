@@ -2,8 +2,8 @@ require "minitest/autorun"
 require "time"
 
 require "remind"
-require "remind/remind_config"
-require "remind/remind_error"
+require "remind/config"
+require "remind/error"
 require "helper"
 
 class RemindTest < Minitest::Test

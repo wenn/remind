@@ -2,7 +2,7 @@ require "minitest/autorun"
 require "time"
 
 require "helper"
-require "remind/remind_note"
+require "remind/note"
 
 class RemindNoteTest < Minitest::Test
 

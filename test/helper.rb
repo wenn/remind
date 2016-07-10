@@ -1,5 +1,5 @@
 require "fileutils"
-require "remind/remind_config"
+require "remind/config"
 require "securerandom"
 
 module TestHelper

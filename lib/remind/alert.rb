@@ -1,9 +1,9 @@
 require "time"
 require "textbelt"
 
-require "remind/remind_helper"
-require "remind/remind_config"
-require "remind/remind_note"
+require "remind/helper"
+require "remind/config"
+require "remind/note"
 
 class AlertException < Exception
 end

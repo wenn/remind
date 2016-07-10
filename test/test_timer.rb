@@ -1,5 +1,5 @@
 require "minitest/autorun"
-require "remind/remind_config"
+require "remind/config"
 require "remind"
 require "helper"
 

@@ -24,7 +24,9 @@ class TextAlert
   end
 
   def self.call_service(message)
-    TextBelt.text(Config.email, message)
+    if !Config.email.nil?
+      TextBelt.text(Config.email, message)
+    end
   end
 end
 
@@ -54,6 +56,6 @@ class RemindAlert
       AlertType::TEXT => TextAlert
     }
 
-    return alerts.fetch(Config.alert_type)
+    return alerts[Config.alert_type]
   end
 end

@@ -65,14 +65,14 @@ class RemindNotes
 
   private
   def self.is_note_due(note)
-    time = Time.parse(note.time)
+    time_hour = Time.parse(note.time).hour
     now = now()
 
-    duration = (ALERT_POLLING_IN_MINUTES/60.0).round(2)
-    start_hour = now - duration
-    end_hour = now
+    duration = (Config.alert_polling_in_minutes/60.0).round(2)
+    start_hour = now.hour - duration
+    end_hour = now.hour
 
-    return (time >= start_hour and time <= end_hour)
+    return (time_hour >= start_hour and time_hour <= end_hour)
   end
 
   private

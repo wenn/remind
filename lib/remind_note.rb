@@ -3,9 +3,11 @@ require "json"
 require "remind_helper"
 
 class RemindNote
+  attr_reader :id, :sent
   attr_reader :action, :time_phrase, :time_marker, :title, :body, :time
 
-  def initialize(action:, time_phrase:, time_marker:, title:, body:, time:)
+  def initialize(id:, action:, time_phrase:, time_marker:, title:, body:, time:)
+    @id = id
     @action = action
     @time_phrase = time_phrase
     @time_marker = time_marker
@@ -16,6 +18,7 @@ class RemindNote
 
   def to_hash
     return {
+      "id" => @id,
       "action" => @action,
       "time_phrase" => @time_phrase,
       "time_marker" => @time_marker,

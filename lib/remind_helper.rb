@@ -1,6 +1,4 @@
 require 'fileutils'
-require 'digest'
-
 require 'remind_config'
 
 class FileHelper
@@ -8,10 +6,6 @@ class FileHelper
     file_path = File.join(Config.data_folder, file_name)
 
     return file_path
-  end
-
-  def self.make_file_name(note)
-    return (Digest::MD5.new).hexdigest(note.to_json)[0..Config.file_name_size]
   end
 
   def self.data_files

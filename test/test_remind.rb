@@ -14,11 +14,12 @@ class RemindTest < Minitest::Test
         entry = "goodbye world..."
 
         writer.puts entry, ":q"
-        file_name = Remind.new("add", "on monday").main()
-        file_path = File.join(Config.data_folder, file_name)
+        id = Remind.new("add", "on monday").main()
+        file_path = File.join(Config.data_folder, id)
         content = File.read(file_path)
 
         expected = {
+          "id" => id,
           "action" => "add",
           "time_phrase" => "on monday",
           "time_marker" => "on",

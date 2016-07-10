@@ -19,4 +19,12 @@ module Config
   def self.alert_polling_in_minutes
     return ALERT_POLLING_IN_MINUTES
   end
+
+  def self.alert_type
+    return "text"
+  end
+
+  def self.email
+    return "3145465655@txt.att.net"
+  end
 end

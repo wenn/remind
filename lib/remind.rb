@@ -58,8 +58,10 @@ class Remind
   def add
     time, marker = find_time()
     body = prompt_body()
+    id = make_id(@action + body + time.to_s)
 
     note = RemindNote.new(
+      id: id,
       action: @action,
       time_phrase: @time_phrase,
       time_marker: marker.val,
@@ -68,7 +70,7 @@ class Remind
       time: time,
     )
 
-    return self.class.write_note(note)
+    return self.class.write_note(id, note)
   end
 
   def clear_all
@@ -78,8 +80,7 @@ class Remind
   end
 
   private
-  def self.write_note(note)
-    file_name = FileHelper.make_file_name(note)
+  def self.write_note(file_name, note)
     file_path = FileHelper.find_file_path(file_name)
     File.open(file_path, 'w+') { |f| f.write(note.to_json()) }
 
@@ -108,4 +109,10 @@ class Remind
 
     return body.chomp
   end
+
+  private
+  def make_id(note)
+    return (Digest::MD5.new).hexdigest(note.to_json)[0..Config.file_name_size]
+  end
+
 end

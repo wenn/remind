@@ -1,6 +1,6 @@
 require "fileutils"
-require "remind_config"
-
+require "remind/remind_config"
+require "securerandom"
 
 module TestHelper
   TEST_DATA_FOLDER = "/tmp/.remind/data"
@@ -22,13 +22,13 @@ module TestHelper
 
   def self.fs
     def Config.data_folder
-      return TestHelper::TEST_DATA_FOLDER
+      return TestHelper::DATA_FOLDER
     end
 
-    FileUtils.mkdir_p(TestHelper::TEST_DATA_FOLDER)
+    FileUtils.mkdir_p(Config.data_folder)
     yield
   ensure
-    `rm -rf #{TestHelper::TEST_DATA_FOLDER}`
+    `rm -rf #{Config.data_folder}`
 
     def Config.data_folder
       return TestHelper::DATA_FOLDER

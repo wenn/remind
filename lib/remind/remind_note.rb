@@ -1,7 +1,7 @@
 require "digest"
 require "json"
 
-require "remind_helper"
+require "remind/remind_helper"
 
 class RemindNote
   attr_reader :id, :sent
@@ -42,14 +42,21 @@ class RemindNote
   end
 
   def save
-    file_path = FileHelper.find_file_path(id)
+    file_path = FileHelper.find_file_path(@id)
     File.open(file_path, 'w+') { |f| f.write(to_json()) }
 
     return id
   end
 
-  def self.make(json)
-    args_arr = json.map do |key, val|
+  def self.find(id)
+    file_path = FileHelper.find_file_path(id)
+    data = JSON.parse(File.read(file_path))
+
+    return self.make(data)
+  end
+
+  def self.make(note_hash)
+    args_arr = note_hash.map do |key, val|
       [key.to_sym, val]
     end
 
@@ -88,9 +95,11 @@ class RemindNotes
 
   private
   def self.is_note_due(note)
-    time_hour = Time.parse(note.time).hour
+    time = Time.parse(note.time)
+    time_hour = time.hour + ((time.min/60.0).round(2))
     now = now()
 
+    # TODO: need to account for midnight transitioning
     duration = (Config.alert_polling_in_minutes/60.0).round(2)
     start_hour = now.hour - duration
     end_hour = now.hour

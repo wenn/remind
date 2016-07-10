@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'remind_alert'
+require 'remind/remind_alert'
 
 RemindAlert.send_all()

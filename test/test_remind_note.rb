@@ -2,7 +2,7 @@ require "minitest/autorun"
 require "time"
 
 require "helper"
-require "remind_note"
+require "remind/remind_note"
 
 class RemindNoteTest < Minitest::Test
 
@@ -85,7 +85,7 @@ class RemindNotesTest < Minitest::Test
       time_marker: "on",
       title: "hello",
       body: "world..",
-      time: "2015-01-01 9:45am",
+      time: (Time.now - (30 * 60)).to_s,
     )
 
     @late_note = RemindNote.new(
@@ -94,7 +94,7 @@ class RemindNotesTest < Minitest::Test
       time_marker: "on",
       title: "goodbye",
       body: "world..",
-      time: "2015-01-01 12pm",
+      time: (Time.now + (60 * 60 * 6)).to_s,
     )
   end
 

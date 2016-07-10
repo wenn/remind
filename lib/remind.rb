@@ -1,8 +1,8 @@
-require 'remind_config'
-require 'remind_helper'
-require 'remind_timer'
-require 'remind_note'
-require 'remind_error'
+require 'remind/remind_config'
+require 'remind/remind_helper'
+require 'remind/remind_parser'
+require 'remind/remind_note'
+require 'remind/remind_error'
 
 REMIND_USAGE = 'change me'
 QUIT_MARKER = ':q'
@@ -78,7 +78,7 @@ class Remind
 
   private
   def find_time
-    time, marker = RemindTimer.new(@time_phrase).parse()
+    time, marker = RemindTimeParser.new(@time_phrase).parse()
 
     if time.nil?
       fail RemindException, ::REMIND_USAGE

@@ -1,5 +1,5 @@
 require 'fileutils'
-require 'remind_config'
+require 'remind/remind_config'
 
 class FileHelper
   def self.find_file_path(file_name)

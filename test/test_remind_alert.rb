@@ -2,7 +2,8 @@ require "minitest/autorun"
 require "time"
 
 require "helper"
-require "remind_note"
+require "remind/remind_note"
+require "remind/remind_alert"
 
 
 class RemindNotesTest < Minitest::Test
@@ -20,7 +21,7 @@ class RemindNotesTest < Minitest::Test
       time_marker: "on",
       title: "hello",
       body: "world..",
-      time: "2015-01-01 9:45am",
+      time: (Time.now - (30 * 60)).to_s,
     )
 
     @late_note = RemindNote.new(
@@ -29,7 +30,7 @@ class RemindNotesTest < Minitest::Test
       time_marker: "on",
       title: "goodbye",
       body: "world..",
-      time: "2015-01-01 12pm",
+      time: (Time.now + (60 * 60 * 2)).to_s,
     )
   end
 
@@ -38,13 +39,16 @@ class RemindNotesTest < Minitest::Test
       @due_note.save()
       @late_note.save()
 
-      def TextAlert.call_service
+      def TextAlert.call_service(message)
       end
 
       RemindAlert.send_all()
 
-      assert @due_note.sent, "Due note should have been sent"
-      assert @late_note.sent, "Late note should not have been sent"
+      due_note = RemindNote.find(@due_note.id)
+      late_note = RemindNote.find(@late_note.id)
+
+      assert due_note.sent, "Due note should have been sent"
+      assert !late_note.sent, "Late note should not have been sent"
     end
   end
 

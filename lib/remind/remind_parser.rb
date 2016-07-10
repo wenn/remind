@@ -1,5 +1,5 @@
 require 'chronic'
-require 'remind_error'
+require 'remind/remind_error'
 
 module Marker
 
@@ -19,7 +19,7 @@ module Marker
 
 end
 
-class RemindTimer
+class RemindTimeParser
 
   def initialize(time_phrase)
     @time_phrase = time_phrase

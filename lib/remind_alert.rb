@@ -19,12 +19,12 @@ class BaseAlert
 end
 
 class TextAlert
-  def self.send(note)
-    call_service(note)
+  def self.send(message)
+    call_service(message)
   end
 
-  def self.call_service(note)
-    TextBelt.text(Config.email, note.title)
+  def self.call_service(message)
+    TextBelt.text(Config.email, message)
   end
 end
 
@@ -35,10 +35,13 @@ end
 class RemindAlert
 
   def self.main
-    alert = make_alert()
+    message = ""
     RemindNotes.with_due_notes do |note|
-      alert.send(note)
+      message << "#{note.title}\n"
     end
+
+    alert = make_alert()
+    alert.send(message) if !message.empty?
   end
 
   private

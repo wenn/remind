@@ -11,9 +11,5 @@ action = ARGV[0]
 entry = ARGV[1..-1].join(' ')
 ARGV.clear()
 
-begin
-  remind = Remind.new(action, entry)
-  puts remind.main()
-rescue Exception => e
-  puts e.message
-end
+remind = Remind.new(action, entry)
+puts remind.main()

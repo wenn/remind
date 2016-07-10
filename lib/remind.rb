@@ -1,3 +1,5 @@
+require 'digest'
+
 require 'remind_config'
 require 'remind_helper'
 require 'remind_timer'
